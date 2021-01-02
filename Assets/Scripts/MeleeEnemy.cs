@@ -20,6 +20,8 @@ public class MeleeEnemy : MonoBehaviour
 
     public bool hasAttacked = false;
 
+    public bool isTouching = false;
+
     private void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
@@ -69,13 +71,18 @@ public class MeleeEnemy : MonoBehaviour
 
     private void ChasePlayer()
     {
-        transform.position = Vector2.MoveTowards(transform.position, new Vector2(target.position.x, transform.position.y), speed * Time.deltaTime);
+        if(!isTouching)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2(target.position.x, transform.position.y), speed * Time.deltaTime);
+        }
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(!hasAttacked && collision.gameObject.tag=="Player")
         {
+            isTouching = true;
             AttackPlayer();
         }
     }
@@ -83,8 +90,13 @@ public class MeleeEnemy : MonoBehaviour
     {
         if (!hasAttacked && collision.gameObject.tag == "Player")
         {
+            isTouching = true;
             AttackPlayer();
         }
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        isTouching = false;
     }
 
     private void AttackPlayer()
