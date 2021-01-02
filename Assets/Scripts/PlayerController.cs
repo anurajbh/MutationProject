@@ -21,6 +21,11 @@ public class PlayerController : MonoBehaviour
     public float attackCooldown = 2f;
     public float attackTimer = 0f;
     public bool initiateCooldown = false;
+
+    public Transform attackPoint;
+    public float attackRange = 0.5f;
+    public LayerMask layers;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -50,26 +55,23 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetAxisRaw("Attack") != 0 && !initiateCooldown)
         {
+            AttackEnemy();
             initiateCooldown = true;
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void AttackEnemy()
     {
-        if(collision.gameObject.tag=="Enemy" && Input.GetAxisRaw("Attack")!=0 && !initiateCooldown)
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, layers);
+        foreach(Collider2D collider in colliders)
         {
-            print("Attacked");
-            collision.gameObject.GetComponent<EnemyHealth>().HitEnemy();
+            if(collider.gameObject.tag=="Enemy")
+            {
+                collider.GetComponent<EnemyHealth>().HitEnemy();
+            }
         }
     }
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Enemy" && Input.GetAxisRaw("Attack") !=0 && !initiateCooldown)
-        {
-            print("Attacked");
-            collision.gameObject.GetComponent<EnemyHealth>().HitEnemy();
-        }
-    }
+
     private void MovementInput()
     {
         //Casts a circle around the player's feet, checking for ground
