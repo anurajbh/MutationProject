@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,9 +17,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _jumpTime;
     [SerializeField] private Transform _playerFeet;
     [SerializeField] private LayerMask _groundMask;
-    
-    
 
+    public float attackCooldown = 2f;
+    public float attackTimer = 0f;
+    public bool initiateCooldown = false;
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -30,6 +32,45 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Update()
+    {
+        MovementInput();
+        CheckForCooldown();
+    }
+
+    private void CheckForCooldown()
+    {
+        if(initiateCooldown)
+        {
+            attackTimer += Time.deltaTime;
+        }   
+        if(attackTimer>=attackCooldown)
+        {
+            initiateCooldown = false;
+            attackTimer = 0f;
+        }
+        if (Input.GetAxisRaw("Attack") != 0 && !initiateCooldown)
+        {
+            initiateCooldown = true;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag=="Enemy" && Input.GetAxisRaw("Attack")!=0 && !initiateCooldown)
+        {
+            print("Attacked");
+            collision.gameObject.GetComponent<EnemyHealth>().HitEnemy();
+        }
+    }
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy" && Input.GetAxisRaw("Attack") !=0 && !initiateCooldown)
+        {
+            print("Attacked");
+            collision.gameObject.GetComponent<EnemyHealth>().HitEnemy();
+        }
+    }
+    private void MovementInput()
     {
         //Casts a circle around the player's feet, checking for ground
         _isGrounded = Physics2D.OverlapCircle(_playerFeet.position, _groundedRadius, _groundMask);
@@ -53,7 +94,7 @@ public class PlayerController : MonoBehaviour
             {
                 _isJumping = false;
             }
-            
+
         }
 
         if (Input.GetKeyUp(KeyCode.W))
@@ -72,9 +113,7 @@ public class PlayerController : MonoBehaviour
         {
             transform.eulerAngles = new Vector3(0, 180, 0);
         }
-
     }
-
 
     private void FixedUpdate()
     {

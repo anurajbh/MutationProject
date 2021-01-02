@@ -15,6 +15,11 @@ public class MeleeEnemy : MonoBehaviour
 
     public float distance;
 
+    public float attackCooldown = 2f;
+    public float attackTimer = 0f;
+
+    public bool hasAttacked = false;
+
     private void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
@@ -29,6 +34,15 @@ public class MeleeEnemy : MonoBehaviour
         else
         {
             Patrol();
+        }
+        if(hasAttacked)
+        {
+            attackTimer += Time.deltaTime;
+        }
+        if(attackTimer>=attackCooldown)
+        {
+            hasAttacked = false;
+            attackTimer = 0f;
         }
 
     }
@@ -56,6 +70,27 @@ public class MeleeEnemy : MonoBehaviour
     private void ChasePlayer()
     {
         transform.position = Vector2.MoveTowards(transform.position, new Vector2(target.position.x, transform.position.y), speed * Time.deltaTime);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(!hasAttacked && collision.gameObject.tag=="Player")
+        {
+            AttackPlayer();
+        }
+    }
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (!hasAttacked && collision.gameObject.tag == "Player")
+        {
+            AttackPlayer();
+        }
+    }
+
+    private void AttackPlayer()
+    {
+        target.GetComponent<PlayerHealth>().HitPlayer();
+        hasAttacked = true;
     }
 
     private bool CheckIfPlayerIsWithinDistance()
