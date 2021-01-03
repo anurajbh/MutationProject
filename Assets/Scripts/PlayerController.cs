@@ -11,12 +11,15 @@ public class PlayerController : MonoBehaviour
     private float _jumpCounter;
     private bool _isGrounded;
     private bool _isJumping;
+    private Transform _startSpawnPoint;
 
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForce;
     [SerializeField] private float _jumpTime;
     [SerializeField] private Transform _playerFeet;
     [SerializeField] private LayerMask _groundMask;
+
+    public float _maxReturnDistance;
 
     public float attackCooldown = 2f;
     public float attackTimer = 0f;
@@ -25,15 +28,24 @@ public class PlayerController : MonoBehaviour
     public Transform attackPoint;
     public float attackRange = 0.5f;
     public LayerMask layers;
+    private float _FurthestPosX;
+    private float _previousPosX;
+    [SerializeField] public float _distanceTraveledX;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        _startSpawnPoint = GameObject.Find("StartSpawn_Point").transform;
 
         if (rb == null)
         {
             Debug.Log("The Player Rigidbody component is NULL");
         }
+
+        _FurthestPosX = 0f;
+        _distanceTraveledX = 0f;
+
+        _previousPosX = 0f;
     }
 
     private void Update()
@@ -74,6 +86,12 @@ public class PlayerController : MonoBehaviour
 
     private void MovementInput()
     {
+
+        if (transform.position.x > _startSpawnPoint.position.x)
+        {
+            SpawnManager.Instance._spawnStarted = true;
+        }
+
         //Casts a circle around the player's feet, checking for ground
         _isGrounded = Physics2D.OverlapCircle(_playerFeet.position, _groundedRadius, _groundMask);
 
@@ -115,11 +133,26 @@ public class PlayerController : MonoBehaviour
         {
             transform.eulerAngles = new Vector3(0, 180, 0);
         }
+
+        if (transform.position.x < _FurthestPosX - _maxReturnDistance)
+        {
+            Debug.Log("Will return");
+            transform.position = new Vector2(_previousPosX, transform.position.y);
+        }
+
+        if ((transform.position.x - _FurthestPosX) > 0)
+        {
+            _distanceTraveledX += (transform.position.x - _FurthestPosX);
+            _FurthestPosX = transform.position.x;
+        }
+
+        _previousPosX = transform.position.x;
+
     }
 
     private void FixedUpdate()
     {
         _hInput = Input.GetAxis("Horizontal");
-        rb.velocity = new Vector2(_hInput * _speed, rb.velocity.y);  
+        rb.velocity = new Vector2(_hInput * _speed, rb.velocity.y);
     }
 }
