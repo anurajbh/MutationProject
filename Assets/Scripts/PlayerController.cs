@@ -22,14 +22,16 @@ public class PlayerController : MonoBehaviour
     public float attackTimer = 0f;
     public bool initiateCooldown = false;
 
+    public Animator anim;
+
     public Transform attackPoint;
     public float attackRange = 0.5f;
     public LayerMask layers;
 
-    private void Start()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-
+        anim = GetComponent<Animator>();
         if (rb == null)
         {
             Debug.Log("The Player Rigidbody component is NULL");
@@ -40,6 +42,14 @@ public class PlayerController : MonoBehaviour
     {
         MovementInput();
         CheckForCooldown();
+        if (_hInput != 0)
+        {
+            anim.SetBool("IsRunning", true);
+        }
+        else if (_hInput == 0)
+        {
+            anim.SetBool("IsRunning", false);
+        }
     }
 
     private void CheckForCooldown()
@@ -103,8 +113,6 @@ public class PlayerController : MonoBehaviour
         {
             _isJumping = false;
         }
-
-
         //Rotates the player sprite when the player is walking left or right
         if (_hInput > 0)
         {
@@ -119,7 +127,9 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _hInput = Input.GetAxis("Horizontal");
+
+        
+        _hInput = Input.GetAxisRaw("Horizontal");
         rb.velocity = new Vector2(_hInput * _speed, rb.velocity.y);  
     }
 }
