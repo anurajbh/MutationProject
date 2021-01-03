@@ -13,7 +13,11 @@ public class Mutation : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        player.ScalePlayer(scaleAmount);
-        Destroy(gameObject);
+        if(collision.gameObject.tag=="Player")
+        {
+            player.ScalePlayer(scaleAmount);
+            Destroy(gameObject);
+        }
+
     }
 }
