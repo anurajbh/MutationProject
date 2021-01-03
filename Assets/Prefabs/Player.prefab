@@ -168,6 +168,7 @@ MonoBehaviour:
   _groundMask:
     serializedVersion: 2
     m_Bits: 8
+  _maxReturnDistance: 10
   attackCooldown: 1
   attackTimer: 0
   initiateCooldown: 0
@@ -177,6 +178,7 @@ MonoBehaviour:
   layers:
     serializedVersion: 2
     m_Bits: 64
+  _distanceTraveledX: 0
 --- !u!50 &4520817933164574272
 Rigidbody2D:
   serializedVersion: 4
@@ -237,6 +239,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 3
+  maxHealth: 3
+  maxScale: 5
 --- !u!95 &4280096470644066665
 Animator:
   serializedVersion: 3
