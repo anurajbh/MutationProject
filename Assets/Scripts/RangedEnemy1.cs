@@ -16,7 +16,6 @@ public class RangedEnemy1 : MonoBehaviour
 
     public float senseDistance = 10f;
 
-    private string _enemyType;
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +24,6 @@ public class RangedEnemy1 : MonoBehaviour
 
         timeBtwShots = startTimeBtwShots;
 
-        _enemyType = "Ranged_Enemy";
     }
 
     // Update is called once per frame
