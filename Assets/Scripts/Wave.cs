@@ -28,7 +28,7 @@ public class Wave : MonoBehaviour
     {
         _distFromCamCenter = transform.position.x - _mainCamera.transform.position.x;
 
-        if (_distFromCamCenter > _playerScript._maxReturnDistance + 50f)
+        if (transform.position.x < _playerScript.transform.position.x - 50f)
         {
             if (SpawnManager.Instance._previousWave.gameObject != this.gameObject)
                 Destroy(this.gameObject);
