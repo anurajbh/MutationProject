@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,8 +17,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _jumpTime;
     [SerializeField] private Transform _playerFeet;
     [SerializeField] private LayerMask _groundMask;
-    
-    
+
+    public float attackCooldown = 2f;
+    public float attackTimer = 0f;
+    public bool initiateCooldown = false;
+
+    public Transform attackPoint;
+    public float attackRange = 0.5f;
+    public LayerMask layers;
 
     private void Start()
     {
@@ -30,6 +37,42 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Update()
+    {
+        MovementInput();
+        CheckForCooldown();
+    }
+
+    private void CheckForCooldown()
+    {
+        if(initiateCooldown)
+        {
+            attackTimer += Time.deltaTime;
+        }   
+        if(attackTimer>=attackCooldown)
+        {
+            initiateCooldown = false;
+            attackTimer = 0f;
+        }
+        if (Input.GetAxisRaw("Attack") != 0 && !initiateCooldown)
+        {
+            AttackEnemy();
+            initiateCooldown = true;
+        }
+    }
+
+    private void AttackEnemy()
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, layers);
+        foreach(Collider2D collider in colliders)
+        {
+            if(collider.gameObject.tag=="Enemy")
+            {
+                collider.GetComponent<EnemyHealth>().HitEnemy();
+            }
+        }
+    }
+
+    private void MovementInput()
     {
         //Casts a circle around the player's feet, checking for ground
         _isGrounded = Physics2D.OverlapCircle(_playerFeet.position, _groundedRadius, _groundMask);
@@ -53,7 +96,7 @@ public class PlayerController : MonoBehaviour
             {
                 _isJumping = false;
             }
-            
+
         }
 
         if (Input.GetKeyUp(KeyCode.W))
@@ -72,9 +115,7 @@ public class PlayerController : MonoBehaviour
         {
             transform.eulerAngles = new Vector3(0, 180, 0);
         }
-
     }
-
 
     private void FixedUpdate()
     {

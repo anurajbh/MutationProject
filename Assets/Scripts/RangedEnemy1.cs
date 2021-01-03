@@ -57,7 +57,7 @@ public class RangedEnemy1 : MonoBehaviour
     {
         if (Vector2.Distance(transform.position, player.position) > stoppingDistance)
         {
-            transform.position = Vector2.MoveTowards(transform.position, player.position, speed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2 (player.position.x, transform.position.y), speed * Time.deltaTime);
         }
         else if (Vector2.Distance(transform.position, player.position) < stoppingDistance && Vector2.Distance(transform.position, player.position) > retreatDistance)
         {
@@ -65,7 +65,7 @@ public class RangedEnemy1 : MonoBehaviour
         }
         else if (Vector2.Distance(transform.position, player.position) < retreatDistance)
         {
-            transform.position = Vector2.MoveTowards(transform.position, player.position, -speed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2(player.position.x, transform.position.y), -speed * Time.deltaTime);
         }
     }
 }
