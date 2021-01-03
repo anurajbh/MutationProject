@@ -22,10 +22,11 @@ public class MeleeEnemy : MonoBehaviour
 
     public bool isTouching = false;
 
+    public int _score;
+
     private void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-
     }
     private void Update()
     {
@@ -112,5 +113,10 @@ public class MeleeEnemy : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.AddScore(5);
     }
 }

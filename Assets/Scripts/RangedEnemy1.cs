@@ -68,4 +68,9 @@ public class RangedEnemy1 : MonoBehaviour
             transform.position = Vector2.MoveTowards(transform.position, new Vector2(player.position.x, transform.position.y), -speed * Time.deltaTime);
         }
     }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.AddScore(10);
+    }
 }
