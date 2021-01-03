@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour
     public float attackTimer = 0f;
     public bool initiateCooldown = false;
 
+    public Animator anim;
+
     public Transform attackPoint;
     public float attackRange = 0.5f;
     public LayerMask layers;
@@ -32,11 +34,12 @@ public class PlayerController : MonoBehaviour
     private float _previousPosX;
     [SerializeField] public float _distanceTraveledX;
 
-    private void Start()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         _startSpawnPoint = GameObject.Find("StartSpawn_Point").transform;
 
+        anim = GetComponent<Animator>();
         if (rb == null)
         {
             Debug.Log("The Player Rigidbody component is NULL");
@@ -52,6 +55,20 @@ public class PlayerController : MonoBehaviour
     {
         MovementInput();
         CheckForCooldown();
+        if (Input.GetAxisRaw("Attack") == 0)
+        {
+            anim.SetBool("IsAttacking", false);
+        }
+        if (_hInput != 0)
+        {
+            anim.SetBool("IsRunning", true);
+            anim.SetBool("IsAttacking", false);
+        }
+        else if (_hInput == 0)
+        {
+            anim.SetBool("IsRunning", false);
+        }
+
     }
 
     private void CheckForCooldown()
@@ -67,6 +84,8 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetAxisRaw("Attack") != 0 && !initiateCooldown)
         {
+            anim.SetBool("IsRunning", false);
+            anim.SetBool("IsAttacking", true);
             AttackEnemy();
             initiateCooldown = true;
         }
@@ -121,8 +140,6 @@ public class PlayerController : MonoBehaviour
         {
             _isJumping = false;
         }
-
-
         //Rotates the player sprite when the player is walking left or right
         if (_hInput > 0)
         {
@@ -152,7 +169,9 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _hInput = Input.GetAxis("Horizontal");
-        rb.velocity = new Vector2(_hInput * _speed, rb.velocity.y);
+
+        
+        _hInput = Input.GetAxisRaw("Horizontal");
+        rb.velocity = new Vector2(_hInput * _speed, rb.velocity.y);  
     }
 }
