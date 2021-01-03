@@ -16,12 +16,16 @@ public class RangedEnemy1 : MonoBehaviour
 
     public float senseDistance = 10f;
 
+    private string _enemyType;
+
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
 
         timeBtwShots = startTimeBtwShots;
+
+        _enemyType = "Ranged_Enemy";
     }
 
     // Update is called once per frame
@@ -67,10 +71,5 @@ public class RangedEnemy1 : MonoBehaviour
         {
             transform.position = Vector2.MoveTowards(transform.position, new Vector2(player.position.x, transform.position.y), -speed * Time.deltaTime);
         }
-    }
-
-    private void OnDestroy()
-    {
-        GameManager.Instance.AddScore(10);
     }
 }

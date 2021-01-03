@@ -30,7 +30,7 @@ public class Wave : MonoBehaviour
 
         if (_distFromCamCenter > _playerScript._maxReturnDistance + 50f)
         {
-            if (SpawnManager.Instance._previousWave != this.gameObject)
+            if (SpawnManager.Instance._previousWave.gameObject != this.gameObject)
                 Destroy(this.gameObject);
         }
     }

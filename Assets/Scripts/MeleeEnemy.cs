@@ -114,9 +114,4 @@ public class MeleeEnemy : MonoBehaviour
         }
         return false;
     }
-
-    private void OnDestroy()
-    {
-        GameManager.Instance.AddScore(5);
-    }
 }
