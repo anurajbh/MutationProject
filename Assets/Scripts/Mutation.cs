@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class Mutation : MonoBehaviour
 {
-    // Start is called before the first frame update
+    PlayerHealth player;
+    public float scaleAmount = 1f;
     void Start()
     {
-        
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        player.ScalePlayer(scaleAmount);
+        Destroy(gameObject);
     }
 }
