@@ -42,14 +42,20 @@ public class PlayerController : MonoBehaviour
     {
         MovementInput();
         CheckForCooldown();
+        if (Input.GetAxisRaw("Attack") == 0)
+        {
+            anim.SetBool("IsAttacking", false);
+        }
         if (_hInput != 0)
         {
             anim.SetBool("IsRunning", true);
+            anim.SetBool("IsAttacking", false);
         }
         else if (_hInput == 0)
         {
             anim.SetBool("IsRunning", false);
         }
+
     }
 
     private void CheckForCooldown()
@@ -65,6 +71,8 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetAxisRaw("Attack") != 0 && !initiateCooldown)
         {
+            anim.SetBool("IsRunning", false);
+            anim.SetBool("IsAttacking", true);
             AttackEnemy();
             initiateCooldown = true;
         }
