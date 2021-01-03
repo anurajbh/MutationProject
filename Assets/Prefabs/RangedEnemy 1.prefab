@@ -105,7 +105,7 @@ MonoBehaviour:
   bullet: {fileID: 4071912850892438702, guid: 7f594d084fda6af4f93a1f562d1cc65d, type: 3}
   player: {fileID: 0}
   startTimeBtwShots: 2
-  senseDistance: 10
+  senseDistance: 7
   anim: {fileID: 0}
   facingRight: 0
 --- !u!50 &6905284592421557164
@@ -168,6 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 1
+  _enemyType: 
 --- !u!95 &6905284592421557138
 Animator:
   serializedVersion: 3
