@@ -10,6 +10,7 @@ public class PlayerHealth : MonoBehaviour
     public void HitPlayer()
     {
         health--;
+        UIManager.Instance.UpdateLivesText(health);
         if (health <= 0f)
         {
             Destroy(gameObject);
