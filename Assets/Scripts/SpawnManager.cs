@@ -46,7 +46,6 @@ public class SpawnManager : MonoSingleton<SpawnManager>
         _playerPosX = _player.transform.position.x;
         int _waveNumber = Random.Range(0, (difficultyLevel * _wavesPerDifficulty) - 1);
         Vector2 wavePos = new Vector2(offset, _waves[_waveNumber].transform.position.y);
-        Debug.Log(wavePos.ToString());
         //GameObject newWave = Instantiate(_waves[_waveNumber], wavePos, Quaternion.identity);
         GameObject newWave = Instantiate(_waves[_waveNumber]);
         newWave.transform.position = wavePos;

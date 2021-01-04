@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 827391366}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.463, y: -0.06, z: 0}
+  m_LocalPosition: {x: 0.66, y: -0.06, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4520817933164574287}
@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 4520817932882774011}
   m_Layer: 0
   m_Name: Feet
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -169,12 +169,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   _maxReturnDistance: 10
-  attackCooldown: 1
+  attackCooldown: 0.2
   attackTimer: 0
   initiateCooldown: 0
   anim: {fileID: 0}
   attackPoint: {fileID: 827391367}
-  attackRange: 0.5
+  attackRange: 1
   layers:
     serializedVersion: 2
     m_Bits: 64
@@ -213,7 +213,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.051463366, y: 0.012492657}
+  m_Offset: {x: -0.09785071, y: 0.012492657}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -224,7 +224,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.84710264, y: 0.30040598}
+  m_Size: {x: 0.75432795, y: 0.30040598}
   m_EdgeRadius: 0
 --- !u!114 &-8443593908821455831
 MonoBehaviour:
@@ -238,9 +238,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 461ad0cb5f7813045b807e870052efc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uIManager: {fileID: 0}
   health: 3
   maxHealth: 3
   maxScale: 5
+  startingScale: 1
+  defeatPanel: {fileID: 0}
 --- !u!95 &4280096470644066665
 Animator:
   serializedVersion: 3

@@ -6,7 +6,11 @@ public class EnemyHealth : MonoBehaviour
 {
     public float health = 1f;
     [SerializeField] private string _enemyType;
-
+    GameManager gameManager;
+    private void Start()
+    {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+    }
     public void HitEnemy()
 
     {
@@ -16,10 +20,10 @@ public class EnemyHealth : MonoBehaviour
             switch (_enemyType)
             {
                 case "Melee_Enemy":
-                    GameManager.Instance.AddScore(5);
+                    gameManager.AddScore(5);
                     break;
-                case "Randed_Enemy":
-                    GameManager.Instance.AddScore(10);
+                case "Ranged_Enemy":
+                    gameManager.AddScore(10);
                     break;
             }
             Destroy(gameObject);

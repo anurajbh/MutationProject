@@ -13,7 +13,7 @@ public class Background : MonoBehaviour
     [SerializeField] float _backgroundHeight;
     [HideInInspector] public GameObject _previousBackground;
     private static GameObject _currentBackground;
-
+    GameManager gameManager;
     private void Awake()
     {
         _offset = new Vector2(_backgroundWidth/2, -_backgroundHeight/2);
@@ -24,6 +24,7 @@ public class Background : MonoBehaviour
     {
         _player = GameObject.Find("Player").transform;
         _previousPlayerPos = _player.position;
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
 
@@ -31,7 +32,7 @@ public class Background : MonoBehaviour
     {
         Vector2 _playerPos = _player.position;
 
-        if (GameManager.Instance._currentBackground == this.gameObject)
+        if (gameManager._currentBackground == this.gameObject)
         {
             if (_playerPos.x >= _previousPlayerPos.x + _offset.x)
             {
@@ -39,13 +40,13 @@ public class Background : MonoBehaviour
 
                 _newBackground = Instantiate(this.gameObject, newPos, Quaternion.identity);
 
-                GameManager.Instance._currentBackground = _newBackground;
+                gameManager._currentBackground = _newBackground;
 
                 UpdateBackground(newPos);
             }
         }
 
-        if (GameManager.Instance._currentBackground == this.gameObject)
+        if (gameManager._currentBackground == this.gameObject)
         {
             if (_playerPos.y <= _previousPlayerPos.y + _offset.y)
             {
@@ -53,7 +54,7 @@ public class Background : MonoBehaviour
 
                 _newBackground = Instantiate(this.gameObject, newPos, Quaternion.identity);
 
-                GameManager.Instance._currentBackground = _newBackground;
+                gameManager._currentBackground = _newBackground;
 
                 UpdateBackground(newPos);
             }

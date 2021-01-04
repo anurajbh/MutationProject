@@ -28,10 +28,12 @@ public class MeleeEnemy : MonoBehaviour
 
     public Animator animator;
 
+    public PlayerHealth playerHealth;
     private void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         animator = GetComponent<Animator>();
+        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
     }
     void Flip()
     {
@@ -43,6 +45,15 @@ public class MeleeEnemy : MonoBehaviour
 
     private void Update()
     {
+        if(target==null)
+        {
+            target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        }
+        if(playerHealth==null)
+        {
+            playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
+            Debug.Log("Player added");
+        }
         if(CheckIfPlayerIsWithinDistance())
         {
             if (target.position.x > transform.position.x && !facingRight) //if the target is to the right of enemy and the enemy is not facing right
@@ -109,14 +120,6 @@ public class MeleeEnemy : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(!hasAttacked && collision.gameObject.tag=="Player")
-        {
-            isTouching = true;
-            AttackPlayer();
-        }
-    }
     private void OnCollisionStay2D(Collision2D collision)
     {
         if (!hasAttacked && collision.gameObject.tag == "Player")
@@ -134,7 +137,11 @@ public class MeleeEnemy : MonoBehaviour
     {
         animator.SetBool("IsRunning", false);
         animator.SetBool("IsFighting", true);
-        target.GetComponent<PlayerHealth>().HitPlayer();
+        if(playerHealth!=null)
+        {
+            playerHealth.HitPlayer();
+        }
+
         hasAttacked = true;
     }
 

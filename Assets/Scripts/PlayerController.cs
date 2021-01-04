@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
 
     public float _maxReturnDistance;
 
-    public float attackCooldown = 2f;
+    public float attackCooldown = 0.2f;
     public float attackTimer = 0f;
     public bool initiateCooldown = false;
 
@@ -33,12 +33,11 @@ public class PlayerController : MonoBehaviour
     private float _FurthestPosX;
     private float _previousPosX;
     [SerializeField] public float _distanceTraveledX;
-
+    GameManager gameManager;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         _startSpawnPoint = GameObject.Find("StartSpawn_Point").transform;
-
         anim = GetComponent<Animator>();
         if (rb == null)
         {
@@ -49,6 +48,8 @@ public class PlayerController : MonoBehaviour
         _distanceTraveledX = 0f;
 
         _previousPosX = 0f;
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        gameManager._score = 0;
     }
 
     private void Update()

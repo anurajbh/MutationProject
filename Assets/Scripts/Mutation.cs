@@ -10,12 +10,23 @@ public class Mutation : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
     }
-
+    private void Update()
+    {
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
+            Debug.Log("Player added");
+        }
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.tag=="Player")
         {
-            player.ScalePlayer(scaleAmount);
+            if(player!=null)
+            {
+                player.ScalePlayer(scaleAmount);
+            }
+
             Destroy(gameObject);
         }
 

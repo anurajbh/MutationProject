@@ -33,6 +33,7 @@ public class RangedEnemy1 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         CheckToShoot();
 
     }

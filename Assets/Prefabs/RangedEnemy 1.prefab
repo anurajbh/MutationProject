@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 1
-  _enemyType: 
+  _enemyType: Ranged_Enemy
 --- !u!95 &6905284592421557138
 Animator:
   serializedVersion: 3
